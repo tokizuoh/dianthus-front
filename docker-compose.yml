@@ -9,3 +9,8 @@ services:
             - 8000:8000
         volumes:
             - .:/go/src
+        networks:
+            - test
+networks:
+    test:
+        external: true
