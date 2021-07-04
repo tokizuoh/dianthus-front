@@ -29,6 +29,12 @@ type Word struct {
 	Vowels string `json:"vowels"`
 }
 
+type Result struct {
+	Target string
+	Vowels string
+	Words  []Word
+}
+
 func main() {
 	e := echo.New()
 	t := &Template{
@@ -58,7 +64,18 @@ func main() {
 			return err
 		}
 
-		if err := c.Render(http.StatusOK, "result.html", words); err != nil {
+		if len(words) == 0 {
+			// [TODO]: 結果が0のときempty表示
+			return nil
+		}
+
+		res := Result{
+			Target: target,
+			Vowels: words[0].Vowels,
+			Words:  words,
+		}
+
+		if err := c.Render(http.StatusOK, "result.html", res); err != nil {
 			log.Println(err)
 			return err
 		}

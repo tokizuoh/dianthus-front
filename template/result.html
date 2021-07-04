@@ -4,12 +4,10 @@
     <title></title>
   </head>
   <body>
+    <button type="button" onclick="history.back()">Back</button>
+    <h2>{{.Target}} ({{.Vowels}})</h2>
     <table>
-      <tr>
-        <th>単語</th>
-        <th>ローマ字</th>
-      </tr>
-      {{ range . }}
+      {{ range .Words }}
       <tr>
         <td> {{.Raw}} </td>
         <td> {{.Roman}} </td>
