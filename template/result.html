@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>単語</th>
+        <th>ローマ字</th>
+      </tr>
+      {{ range . }}
+      <tr>
+        <td> {{.Raw}} </td>
+        <td> {{.Roman}} </td>
+      </tr>
+      {{ end }}
+    </table>
+  </body>
+</html>

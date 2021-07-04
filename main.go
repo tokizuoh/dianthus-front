@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -31,17 +32,13 @@ type Word struct {
 func main() {
 	e := echo.New()
 	t := &Template{
-		templates: template.Must(template.ParseGlob("template/index.html")),
+		templates: template.Must(template.ParseGlob("template/*.html")),
 	}
 	e.Renderer = t
 
 	e.GET("/", func(c echo.Context) error {
-		words, err := fetchWords()
-		if err != nil {
-			return err
-		}
-
-		if err := c.Render(http.StatusOK, "index.html", words); err != nil {
+		if err := c.Render(http.StatusOK, "index.html", nil); err != nil {
+			log.Println(err)
 			return err
 		}
 
@@ -49,18 +46,34 @@ func main() {
 	})
 
 	e.POST("/result", func(c echo.Context) error {
-		log.Println(c.FormValue("target"))
-		// renderの処理
+		target := c.FormValue("target")
+		if len(target) == 0 {
+			// [TODO]: 文字列長さが0のときの処理
+			return nil
+		}
+
+		words, err := fetchWords(target)
+		if err != nil {
+			log.Println(err)
+			return err
+		}
+
+		if err := c.Render(http.StatusOK, "result.html", words); err != nil {
+			log.Println(err)
+			return err
+		}
+
 		return nil
 	})
 
 	e.Logger.Fatal(e.Start(":8000"))
 }
 
-func fetchWords() ([]Word, error) {
+func fetchWords(target string) ([]Word, error) {
 	client := &http.Client{Timeout: time.Duration(30) * time.Second}
 	// [TODO]: URLの設定方法
-	req, err := http.NewRequest("GET", "http://172.30.0.3:8080/v1/roman?target=chiyuki", nil)
+	url := fmt.Sprintf("http://172.30.0.3:8080/v1/roman?target=%v", target)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
