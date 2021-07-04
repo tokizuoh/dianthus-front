@@ -48,11 +48,18 @@ func main() {
 		return nil
 	})
 
+	e.POST("/result", func(c echo.Context) error {
+		log.Println(c.FormValue("target"))
+		// renderの処理
+		return nil
+	})
+
 	e.Logger.Fatal(e.Start(":8000"))
 }
 
 func fetchWords() ([]Word, error) {
 	client := &http.Client{Timeout: time.Duration(30) * time.Second}
+	// [TODO]: URLの設定方法
 	req, err := http.NewRequest("GET", "http://172.30.0.3:8080/v1/roman?target=chiyuki", nil)
 	if err != nil {
 		return nil, err
