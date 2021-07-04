@@ -10,7 +10,7 @@ services:
         volumes:
             - .:/go/src
         networks:
-            - test
+            - dianthus
 networks:
-    test:
+    dianthus:
         external: true

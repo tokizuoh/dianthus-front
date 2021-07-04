@@ -108,8 +108,7 @@ func main() {
 
 func fetchWords(target string) ([]Word, error) {
 	client := &http.Client{Timeout: time.Duration(30) * time.Second}
-	// [TODO]: URLの設定方法
-	url := fmt.Sprintf("http://172.30.0.3:8080/v1/roman?target=%v", target)
+	url := fmt.Sprintf("http://dianthus-server_app_1:8080/v1/roman?target=%v", target)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
