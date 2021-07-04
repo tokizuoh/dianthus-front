@@ -37,6 +37,7 @@ type Result struct {
 
 func main() {
 	e := echo.New()
+	e.Static("/static", "static")
 	t := &Template{
 		templates: template.Must(template.ParseGlob("template/*.html")),
 	}
