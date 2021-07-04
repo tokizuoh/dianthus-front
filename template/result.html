@@ -9,12 +9,16 @@
     <div class="main">
       <h2>{{.Target}} ({{.Vowels}})</h2>
       <table align="center">
-      {{ range .Words }}
-      <tr>
+        <tr>
+          <th>WORD</th>
+          <th>ROMAN</th>
+        </tr>
+        {{ range .Words }}
+        <tr>
           <td> {{.Raw}} </td>
           <td> {{.Roman}} </td>
-      </tr>
-      {{ end }}
+        </tr>
+        {{ end }}
       </table>
     </div>
   </body>
