@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"text/template"
@@ -33,6 +34,21 @@ type Result struct {
 	Target string
 	Vowels string
 	Words  []Word
+}
+
+func shuffle(ls []Word) {
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(ls), func(i, j int) {
+		ls[i], ls[j] = ls[j], ls[i]
+	})
+}
+
+func min(a int, b int) int {
+	if a > b {
+		return b
+	} else {
+		return a
+	}
 }
 
 func main() {
@@ -70,10 +86,13 @@ func main() {
 			return nil
 		}
 
+		shuffle(words)
+		pickLen := min(len(words), 10)
+
 		res := Result{
 			Target: target,
 			Vowels: words[0].Vowels,
-			Words:  words,
+			Words:  words[:pickLen],
 		}
 
 		if err := c.Render(http.StatusOK, "result.html", res); err != nil {
