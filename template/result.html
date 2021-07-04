@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="static/result.css">
     <title></title>
   </head>
   <body>
     <button type="button" onclick="history.back()">Back</button>
-    <h2>{{.Target}} ({{.Vowels}})</h2>
-    <table>
+    <div class="main">
+      <h2>{{.Target}} ({{.Vowels}})</h2>
+      <table align="center">
       {{ range .Words }}
       <tr>
-        <td> {{.Raw}} </td>
-        <td> {{.Roman}} </td>
+          <td> {{.Raw}} </td>
+          <td> {{.Roman}} </td>
       </tr>
       {{ end }}
-    </table>
+      </table>
+    </div>
   </body>
 </html>
